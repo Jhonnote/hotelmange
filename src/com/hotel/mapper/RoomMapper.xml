@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.mapper.RoomMapper">
+<select id="selectRoomByAll" resultType="Room">
+select * from room where status="可用" and type="单人间"
+</select>
+
+<select id="selectRoomByType" resultType="Room">
+select * from room where type=#{type} and status="可用"
+</select>
+
+<update id="updateRoom" parameterType="Room">
+update room
+<set>
+<if test="type!=null and type!=''">
+type=#{type},
+</if>
+<if test="price!=null and price!=''">
+price=#{price},
+</if>
+<if test="number!=null and number!=''">
+number=#{number},
+</if>
+<if test="status!=null and status!=''">
+status=#{status},
+</if>
+</set>
+where id=#{id}
+</update>
+
+<select id="seleRoomById" resultType="Room">
+select * from room where id=#{room_id}
+</select>
+</mapper>

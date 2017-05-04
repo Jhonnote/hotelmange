@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.mapper.CustomerMapper">
+<insert id="insertCustomer" parameterType="Customer" useGeneratedKeys="true" keyProperty="id">
+insert into customer
+<trim prefix="(" suffix=")" suffixOverrides=",">
+<if test="name!=null and name!=''">
+name,
+</if>
+<if test="phonenum!=null and phonenum!=''">
+phonenum,
+</if>
+<if test="idcar!=null and idcar!=''">
+idcar,
+</if>
+</trim>
+values
+<trim prefix="(" suffix=")" suffixOverrides=",">
+<if test="name!=null and name!=''">
+#{name},
+</if>
+<if test="phonenum!=null and phonenum!=''">
+#{phonenum},
+</if>
+<if test="idcar!=null and idcar!=''">
+#{idcar},
+</if>
+</trim>
+</insert>
+
+<select id="selectCustomer" resultType="Customer">
+select * from customer
+</select>
+</mapper>

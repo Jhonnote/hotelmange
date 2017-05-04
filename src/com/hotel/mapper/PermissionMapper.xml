@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.mapper.PermissionMapper">
+<select id="selectManagePermission" resultType="Permission"> 
+select t2.* from management t,role t0,role_permission t1,permission t2
+where t.id=#{id}
+and t.role_id=t0.id
+and t0.id=t1.role_id
+and t1.permission_id=t2.id
+</select>
+
+<select id="selectPermissionAll" resultType="Permission">
+select * from permission
+</select>
+
+<select id="selectPermissionById" resultType="Permission">
+select * from permission where id=#{id}
+</select>
+
+<update id="selectUpdatePermission">
+update permission
+<set>
+<if test="key!=null and key!=''">
+`key`=#{key},
+</if>
+<if test="name!=null and name!=''">
+name=#{name},
+</if>
+<if test="url!=null and url!=''">
+url=#{url},
+</if>
+<if test="date!=null and date!=''">
+date=#{date},
+</if>
+<if test="status!=null and status!=''">
+status=#{status},
+</if>
+<if test="par_id!=null and par_id!='' or par_id!=0">
+par_id=#{par_id},
+</if>
+</set>
+where id=#{id}
+</update>
+
+<select id="selectPermissionByRoleId" resultType="Permission">
+select t1.* from role t,role_permission t0,permission t1
+where t.id=#{id}
+and t.id=t0.role_id
+and t0.permission_id=t1.id
+</select>
+
+<select id="selectPermissionNone" resultType="Permission">
+select * from permission where id not in
+<foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+#{item.id}
+</foreach>
+</select>
+
+<insert id ="insertPermissionRole" parameterType="java.util.List">
+<!--               <selectKey resultType ="java.lang.Integer" keyProperty= "id" -->
+<!--                    order= "AFTER"> -->
+<!--                   SELECT LAST_INSERT_ID() -->
+<!--               </selectKey > -->
+             insert into role_permission
+             (role_id, permission_id)
+             values
+             <foreach collection ="list" item="item" index= "index" separator =",">
+                 (#{item.role}, #{item.permission})
+             </foreach >
+</insert >
+
+<delete id="deletePermissionRole" parameterType="java.util.List">
+delete from role_permission
+<where>
+<foreach collection="list" item="item" index="index" open="(" separator="or" close=")">
+role_id=#{item.role} and permission_id=#{item.permission}
+</foreach>
+</where>
+
+</delete>
+
+<insert id="insertPermission" parameterType="Permission">
+insert into permission
+<trim prefix="(" suffix=")" suffixOverrides=",">
+data,
+<if test="key!=null and key!=''">
+`key`,
+</if>
+<if test="name!=null and name!=''">
+name,
+</if>
+<if test="url!=null and url!=''">
+url,
+</if>
+<if test="status!=null and status!=''">
+status,
+</if>
+<if test="par_id!=null and par_id!='' or par_id!=0">
+par_id,
+</if>
+</trim>
+values
+<trim prefix="(" suffix=")" suffixOverrides=",">
+now(),
+<if test="key!=null and key!=''">
+#{key},
+</if>
+<if test="name!=null and name!=''">
+#{name},
+</if>
+<if test="url!=null and url!=''">
+#{url},
+</if>
+<if test="status!=null and status!=''">
+#{status},
+</if>
+<if test="par_id!=null and par_id!='' or par_id!=0">
+#{par_id},
+</if>
+</trim>
+</insert>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hotel.mapper.CheckInMapper">
+
+<select id="selectStaffAll" resultType="CheckIn">
+select t.id,t0.id as room_id,t1.name,t0.price,t.date,t.status from check_in t,room t0,customer t1
+where t.status=#{type}
+and t.room_id=t0.id
+and t.customer_id=t1.id
+</select>
+
+<insert id="insertCheckIn" parameterType="CheckIn">
+insert into check_in
+<trim prefix="(" suffix=")" suffixOverrides=",">
+date,
+<if test="customer_id!=null and customer_id!='' or customer_id!=0">
+customer_id,
+</if>
+<if test="room_id!=null and room_id!='' or room_id!=0">
+room_id,
+</if>
+<if test="price!=null and price!=''">
+price,
+</if>
+<if test="status!=null and status!=''">
+status,
+</if>
+</trim>
+values
+<trim prefix="(" suffix=")" suffixOverrides=",">
+now(),
+<if test="customer_id!=null and customer_id!='' or customer_id!=0">
+#{customer_id},
+</if>
+<if test="room_id!=null and room_id!='' or room_id!=0">
+#{room_id},
+</if>
+<if test="price!=null and price!=''">
+#{price},
+</if>
+<if test="status!=null and status!=''">
+#{status},
+</if>
+</trim>
+</insert>
+
+<select id="selectCheckInById" resultType="CheckIn">
+select t.id,t0.name,t0.phonenum,t0.idcar from check_in t,customer t0 where t.id=#{id}
+and t.customer_id=t0.id
+</select>
+
+<update id="updateCheckIn" parameterType="CheckIn">
+update check_in
+<set>
+<if test="customer_id!=null and customer_id!='' or customer_id!=0">
+customer_id=#{customer_id},
+</if>
+<if test="room_id!=null and room_id!='' or room_id!=0">
+room_id=#{room_id},
+</if>
+<if test="price!=null and price!=''">
+price=#{price},
+</if>
+<if test="status!=null and status!=''">
+status=#{status},
+</if>
+</set>
+where id=#{id}
+</update>
+
+
+<select id="selectAllCheckIn" resultType="CheckIn">
+select t.*,t0.type,t1.name from check_in t,room t0,customer t1
+where t.room_id=t0.id
+and t.customer_id=t1.id
+</select>
+
+<select id="selectAllCheckIns" resultType="CheckIn">
+select t.*,t0.type,t1.name from check_in t,room t0,customer t1
+where t.room_id=t0.id
+and t.customer_id=t1.id
+and t.status=#{type}
+</select>
+
+<select id="selectAmount" resultType="String">
+select ifnull(sum(price),0) from check_in
+</select>
+
+<select id="selectAmountType" resultType="String">
+select ifnull(sum(price),0) from check_in where status = #{type}
+</select>
+</mapper>

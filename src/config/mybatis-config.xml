@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- 实体类,简称 -设置别名 -->
+	<typeAliases>
+ 	<typeAlias type="com.hotel.entity.Account" alias="Account"/>
+ 	<typeAlias type="com.hotel.entity.Permission" alias="Permission"/>
+ 	<typeAlias type="com.hotel.entity.Role" alias="Role"/>
+ 	<typeAlias type="com.hotel.entity.CheckIn" alias="CheckIn"/>
+ 	<typeAlias type="com.hotel.entity.Room" alias="Room"/>
+ 	<typeAlias type="com.hotel.entity.Customer" alias="Customer"/>
+ 	<typeAlias type="com.hotel.entity.RoomType" alias="RoomType"/>
+ 	<typeAlias type="com.hotel.entity.Management" alias="Management"/>
+	</typeAliases>
+	<!-- 实体接口映射资源 -->
+	<!--
+		说明：如果xxMapper.xml配置文件放在和xxMapper.java统一目录下，mappers也可以省略，因为org.mybatis.spring.mapper.MapperFactoryBean默认会去查找与xxMapper.java相同目录和名称的xxMapper.xml
+	-->
+	<mappers>
+	<mapper resource="com/hotel/mapper/AccountMapper.xml"/>
+    <mapper resource="com/hotel/mapper/PermissionMapper.xml"/>
+    <mapper resource="com/hotel/mapper/RoleMapper.xml"/>
+    <mapper resource="com/hotel/mapper/CheckInMapper.xml"/>
+    <mapper resource="com/hotel/mapper/RoomMapper.xml"/>
+    <mapper resource="com/hotel/mapper/CustomerMapper.xml"/>
+    <mapper resource="com/hotel/mapper/ManagerMapper.xml"/>
+	</mappers>
+
+</configuration> 
+
+
+
+ 
